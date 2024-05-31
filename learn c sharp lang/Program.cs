@@ -4,56 +4,105 @@ namespace learn_c_sharp_lang
 {
     class Program
     {
-        //почему мы все методы сделали статическими?
 
-        //3. найти сумму цифр числа при помощи рекурсии
-        static int sumDigit(int number)
+        //1. Написать метод Resize изменяющий количество элементов массива(метод должен иметь возможность увеличить или уменьшить количество элементов массива).
+        static void Resize<T>(ref T[]mas, int length)
         {
-            if (number < 1)
+            T[] newMas = new T[length];
+
+            for(int i = 0; i + 1 <= mas.Length && i + 1 <= newMas.Length; i++ )
             {
-                return 0;
+                newMas[i] = mas[i];
             }
-            else
-            {
-                return number % 10 + sumDigit(number / 10);
-            }
+
+            mas = newMas;
         }
 
-        //2. найти сумму элементов массива при попомщи рекурсии
-        static int sumMasElements(int[]mas, int index = 0)
+        //2. Написать методы для добавления элемента в начало массива, в конец массива и по указанному индексу.
+        static void addELementAtIndex(ref int[]mas, int el, int index)
         {
-            if (mas.Length <= index)
+            int [] newMas = new int[mas.Length + 1];
+
+            //всё в индексах
+            for (int i = 0; i < index; i++)
             {
-                return 0;
+                newMas[i] = mas[i];
             }
-            else
+
+            newMas[index] = el;
+
+            for (int i = index; i + 1 <= mas.Length; i++)
             {
-                return mas[index] + sumMasElements(mas, index + 1);
+                newMas[i + 1] = mas[i];
             }
+
+            mas = newMas;
+        }
+        static void addEnd(ref int []mas, int el)
+        {
+            addELementAtIndex(ref mas, 52, mas.Length);
+        }
+        static void addStart(ref int[] mas, int el)
+        {
+            addELementAtIndex(ref mas, 52, 0);
         }
 
-        //1. реализовать вывод массива при помощи рекурсии
-        static void outputMasRecursion(int[]mas, int index = 0)
+        //3. Написать методы для удаления первого элемента массива, последнего элемента массива и элемента по указанному индексу.
+        static void deleteFirst(ref int[]mas)
         {
-            if (mas.Length > index)
+            deleteAtIndex(ref mas, 0);
+        }
+        static void deleteLast(ref int[]mas)
+        {
+            deleteAtIndex(ref mas, mas.Length - 1);
+        }
+        static void deleteAtIndex(ref int[]mas, int index)
+        {
+            int[] newMas = new int[mas.Length - 1];
+
+            for(int i = 0; i < index; i++)
             {
-                Console.Write(mas[index] + " ");
-                outputMasRecursion(mas, index + 1);
+                newMas[i] = mas[i];
             }
+
+            for(int i = index + 1; i < mas.Length; i++)
+            {
+                newMas[i - 1] = mas[i];
+            }
+
+            mas = newMas;
         }
 
         static void Main(string[] args)
         {
+            //1
+            /*
+            int[] mas = { };
+            Resize(ref mas, 2);
+            foreach (var item in mas)
+            {
+                Console.Write(item + " ");
+            }
+            */
+
+            //2
+            /*
+            int[] mas = { 2, 4, 6, 8, 0 };
+            addELementAtIndex(ref mas, 52, mas.Length);
+            foreach (var item in mas)
+            {
+                Console.Write($"{item} ");
+            }
+            */
+
             //3
-            //Console.WriteLine(sumDigit(123456789));
-
-            //2 
-            //int [] mas = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-            //Console.WriteLine(sumMasElements(mas));
-
-            //1 
-            int [] mas = { 1 };
-            outputMasRecursion(mas);
+            int[] mas = { 2, 4, 6, 8, 0 };
+            //deleteAtIndex(ref mas, mas.Length - 1);
+            deleteLast(ref mas);
+            foreach (var item in mas)
+            {
+                Console.Write($"{item} ");
+            }
 
             //костыль
             Console.ReadLine();
